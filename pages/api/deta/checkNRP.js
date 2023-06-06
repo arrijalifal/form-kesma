@@ -4,6 +4,13 @@ const db = deta.Base('submittedform');
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        res.status(201).json(await db.put(req.body.nrp, req.body.email));
+        const { email } = req.body;
+        const isEmail = await db.get(email);
+        if (isEmail && isEmail.nrp) {
+            res.json({status: false})
+        }
+        else {
+            res.json({status: true})
+        }
     }
 }
