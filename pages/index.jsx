@@ -3,6 +3,7 @@ import Layout from "@/layout/layout";
 import Link from "next/link";
 import { getSession } from "next-auth/react";
 import DataDiri, { capitalize, golonganUkt, listMatkul } from "@/lib/data";
+import axios from "axios";
 
 export default function Home({ data }) {
     return (
@@ -71,17 +72,47 @@ function ShowData({ database }) {
 }
 
 export async function getServerSideProps({ req }) {
-    // const session = await getSession({req});
-    // if(session) {
-    //     return {
-    //         props: { session }
-    //     }
-    // }
+    const session = await getSession({req});
+    
+    if(session) {
+        console.log(session);
+        const isNRP = await axios({
+            method: 'post',
+            url: "http://localhost:3000/api/deta/checkNRP",
+            data: {
+                email: session.user.email
+            }
+        })
+        if (isNRP.data.status) {
+            return {
+                redirect: {
+                    destination: '/setNRP',
+                    permanent: false
+                }
+            }
+        } else {
+
+            return {
+                props: {
+                    session,
+                }
+            }
+        }
+    }
+    else {
+        return {
+            redirect: {
+                destination: '/login',
+                redirect: false
+            }
+        }
+    }
     // else {
     //     return {
     //         props: {}
     //     }
     // }
+
     const data = DataDiri();
     return {
         props: {

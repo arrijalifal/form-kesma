@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { signOut } from "next-auth/react"
 
 export default function Layout({ children }) {
     return (
@@ -9,7 +10,12 @@ export default function Layout({ children }) {
                     <h3 className="font-semibold text-xl">502XXXXXX9</h3>
                 </div>
                 <div className="my-auto">
-                    <Link href="/login"><button className="mx-auto p-2 bg-red-500 text-gray-100 rounded-md">Logout</button></Link>
+                    <button
+                        className="mx-auto p-2 bg-red-500 text-gray-100 rounded-md"
+                        onClick={signOut}
+                    >
+                        Logout
+                    </button>
                 </div>
             </header>
             <main className="w-1/2  bg-slate-50 mx-auto p-4 my-10 rounded-md">
