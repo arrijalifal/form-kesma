@@ -5,10 +5,10 @@ export default async function handler(req, res) {
         const { email } = req.body;
         const isEmail = await db.get(email);
         if (isEmail && isEmail.nrp) {
-            res.json({status: true})
+            res.json({status: false})
         }
         else {
-            res.json({status: false})
+            res.json({status: true})
         }
     }
 }

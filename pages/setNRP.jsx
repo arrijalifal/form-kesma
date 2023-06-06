@@ -1,8 +1,13 @@
 import LoginBox from "@/layout/loginbox";
 import Head from "next/head";
 import { useState, useEffect } from "react";
+import { getSession, useSession } from "next-auth/react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function SetNRP() {
+    const router = useRouter();
+    const { data: session } = useSession();
     const [nrp, setNrp] = useState('');
     const [isValid, setIsValid] = useState(false)
     useEffect(() => {
@@ -13,7 +18,18 @@ export default function SetNRP() {
             else setIsValid(false)
         }
         else setIsValid(true)
-    })
+    });
+    function onSubmit() {
+        axios({
+            method: 'post',
+            url: 'http://localhost:3000/api/deta/setNRP',
+            data: {
+                email: session.user.email,
+                nrp: nrp
+            }
+        });
+        router.push('/');
+    }
     return (
         <LoginBox>
             <Head>
@@ -23,7 +39,7 @@ export default function SetNRP() {
                 <h1 className="w-4/5 mx-auto text-2xl select-none">E-mail Belum Terdaftar</h1>
             </div>
             <div className="text-center mt-4">
-                <p className="text-base">{(isValid)? 'Silakan masukkan NRP anda!' : 'Anda bukan Mahasiswa TEKKOM!'}</p>
+                <p className="text-base">{(isValid) ? 'Silakan masukkan NRP anda!' : 'Anda bukan Mahasiswa TEKKOM!'}</p>
                 <input
                     type="text"
                     name="nrp"
@@ -33,9 +49,20 @@ export default function SetNRP() {
                     className="border border-gray-400 rounded-md outline-blue-400 p-1 mt-1 w-1/2"
                 />
                 <div>
-                    <button className="border-2 px-3 py-1 mt-3 rounded-md hover:bg-blue-100">Masuk</button>
+                    <button className="border-2 px-3 py-1 mt-3 rounded-md hover:bg-blue-100" onClick={onSubmit}>Masuk</button>
                 </div>
             </div>
         </LoginBox>
     )
+}
+
+export async function getServerSideProps({ req }) {
+    const session = await getSession({ req });
+    if (session) {
+        return {
+            props: {
+                session
+            }
+        }
+    }
 }

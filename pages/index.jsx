@@ -7,45 +7,46 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Home() {
-    const [data, setData] = useState({});
-    const { data: session } = useSession();
-    useEffect(async () => {
-        const datapribadi = await axios({
-            method: 'post',
-            url: "http://localhost:3000/api/deta/getData",
-            data: {
-                email: email,
-            }
-        });
-        if (!datapribadi) {
-            axios.post('http://localhost:3000/api/deta/setData',
-                {
-                    data: {
-                        datadiri: {
-                            nrp: "",
-                            kontak: "",
-                            semester: "",
-                        },
-                        ekonomi: {
-                            golongan_ukt: "",
-                            pekerjaan_ayah: "",
-                            pendapatan_ayah: "",
-                            pekerjaan_ibu: "",
-                            pendapatan_ibu: "",
-                        },
-                        akademik: {
-                            sks_tempuh: 0,
-                            sks_lulus: 0,
-                            matkul_mengulang: []
-                        }
-                    },
-                    key: session.user.email
-                })
-                setData(datapribadi)
-        } else {
-            setData(datapribadi);
-        }
-    })
+    const data = DataDiri();
+    // const [data, setData] = useState({});
+    // const { data: session } = useSession();
+    // useEffect(async () => {
+    //     const datapribadi = await axios({
+    //         method: 'post',
+    //         url: "http://localhost:3000/api/deta/getData",
+    //         data: {
+    //             email: email,
+    //         }
+    //     });
+    //     if (!datapribadi) {
+    //         axios.post('http://localhost:3000/api/deta/setData',
+    //             {
+    //                 data: {
+    //                     datadiri: {
+    //                         nrp: "",
+    //                         kontak: "",
+    //                         semester: "",
+    //                     },
+    //                     ekonomi: {
+    //                         golongan_ukt: "",
+    //                         pekerjaan_ayah: "",
+    //                         pendapatan_ayah: "",
+    //                         pekerjaan_ibu: "",
+    //                         pendapatan_ibu: "",
+    //                     },
+    //                     akademik: {
+    //                         sks_tempuh: 0,
+    //                         sks_lulus: 0,
+    //                         matkul_mengulang: []
+    //                     }
+    //                 },
+    //                 key: session.user.email
+    //             })
+    //             setData(datapribadi)
+    //     } else {
+    //         setData(datapribadi);
+    //     }
+    // })
     return (
         <Layout>
             <Head>
@@ -147,11 +148,6 @@ export async function getServerSideProps({ req }) {
             }
         }
     }
-    // else {
-    //     return {
-    //         props: {}
-    //     }
-    // }
 
     const data = DataDiri();
     return {
