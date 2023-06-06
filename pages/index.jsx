@@ -1,11 +1,51 @@
 import Head from "next/head";
 import Layout from "@/layout/layout";
 import Link from "next/link";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import DataDiri, { capitalize, golonganUkt, listMatkul } from "@/lib/data";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Home({ data }) {
+export default function Home() {
+    const [data, setData] = useState({});
+    const { data: session } = useSession();
+    useEffect(async () => {
+        const datapribadi = await axios({
+            method: 'post',
+            url: "http://localhost:3000/api/deta/getData",
+            data: {
+                email: email,
+            }
+        });
+        if (!datapribadi) {
+            axios.post('http://localhost:3000/api/deta/setData',
+                {
+                    data: {
+                        datadiri: {
+                            nrp: "",
+                            kontak: "",
+                            semester: "",
+                        },
+                        ekonomi: {
+                            golongan_ukt: "",
+                            pekerjaan_ayah: "",
+                            pendapatan_ayah: "",
+                            pekerjaan_ibu: "",
+                            pendapatan_ibu: "",
+                        },
+                        akademik: {
+                            sks_tempuh: 0,
+                            sks_lulus: 0,
+                            matkul_mengulang: []
+                        }
+                    },
+                    key: session.user.email
+                })
+                setData(datapribadi)
+        } else {
+            setData(datapribadi);
+        }
+    })
     return (
         <Layout>
             <Head>
@@ -58,7 +98,7 @@ function ShowData({ database }) {
                         return (
                             <div key={dt} className="mb-1.5">
                                 <div className="table-cell box-border w-48 h-5 font-medium">{keys}</div>
-                                <div className="table-cell box-border w-auto h-5">{(dt === "matkul_mengulang")? data.akademik[dt].map(mk => matkul[mk]).join(", ") : data.akademik[dt]}</div>
+                                <div className="table-cell box-border w-auto h-5">{(dt === "matkul_mengulang") ? data.akademik[dt].map(mk => matkul[mk]).join(", ") : data.akademik[dt]}</div>
                             </div>
                         )
                     })
@@ -72,15 +112,16 @@ function ShowData({ database }) {
 }
 
 export async function getServerSideProps({ req }) {
-    const session = await getSession({req});
-    
-    if(session) {
+    const session = await getSession({ req });
+
+    if (session) {
+        const email = session.user.email;
         console.log(session);
         const isNRP = await axios({
             method: 'post',
             url: "http://localhost:3000/api/deta/checkNRP",
             data: {
-                email: session.user.email
+                email: email
             }
         })
         if (isNRP.data.status) {
@@ -91,7 +132,6 @@ export async function getServerSideProps({ req }) {
                 }
             }
         } else {
-
             return {
                 props: {
                     session,

@@ -1,13 +1,13 @@
 import Link from "next/link"
 import { signOut } from "next-auth/react"
 
-export default function Layout({ children }) {
+export default function Layout({ nama, nrp, children }) {
     return (
         <div className="relative">
             <header className="bg-slate-50 flex justify-between mx-4 px-4 py-2 rounded-md sticky top-5">
                 <div>
-                    <p>Arrijal Istighfarotudzdzilal</p>
-                    <h3 className="font-semibold text-xl">502XXXXXX9</h3>
+                    <p>{nama}</p>
+                    <h3 className="font-semibold text-xl">{nrp}</h3>
                 </div>
                 <div className="my-auto">
                     <button
