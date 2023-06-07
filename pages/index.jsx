@@ -78,7 +78,6 @@ export async function getServerSideProps({ req }) {
 
     if (session) {
         const email = session.user.email;
-        console.log(session);
         const isNRP = await axios({
             method: 'post',
             url: "http://localhost:3000/api/deta/checkNRP",
