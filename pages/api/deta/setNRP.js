@@ -26,7 +26,7 @@ export default async function handler(req, res) {
                 },
                 nrp: nrp
             }
-            await db.put(tempData, email);
+            res.json(await db.put(tempData, email));
         }
         else {
             const hasil = await db.update({ nrp }, email);

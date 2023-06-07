@@ -8,6 +8,7 @@ import React from "react";
 import axios from "axios";
 
 export default function EditData({ datafile }) {
+  const { data: session} = useSession();
   const database = datafile.data
   const { nrp, kontak, semester } = database.datadiri;
   const router = useRouter();
@@ -35,9 +36,38 @@ export default function EditData({ datafile }) {
         sks_lulus,
         matkul_mengulang
       },
-      onSubmit: (value) => {
+      onSubmit: async (value) => {
         console.log(value);
-        // router.push('/')
+        const newData = {
+          datadiri: {
+            nrp: value.nrp,
+            kontak: value.kontak,
+            semester: value.semester,
+          },
+          ekonomi: {
+            golongan_ukt: value.golongan_ukt,   
+            pekerjaan_ayah: value.pekerjaan_ayah,   
+            pendapatan_ayah: value.pendapatan_ayah,   
+            pekerjaan_ibu: value.pekerjaan_ibu,   
+            pendapatan_ibu: value.pendapatan_ibu,   
+          },
+          akademik: {
+            sks_tempuh: value.sks_tempuh,
+            sks_lulus: value.sks_lulus,
+            matkul_mengulang: value.matkul_mengulang
+          }
+        }
+        await axios({
+          method: 'patch',
+          url: "http://localhost:3000/api/deta/updateData",
+          data: {
+            key: session.user.email,
+            data: {
+              data: newData
+            }
+          }
+        });
+        router.push('/');
       }
     },
   );
@@ -61,14 +91,14 @@ export default function EditData({ datafile }) {
                     {
                       <input
                         id={dt}
-                        type={(dt === "semester")? 'number' : 'text'}
+                        type={(dt === "semester") ? 'number' : 'text'}
                         name={dt}
                         className="border border-gray-400 rounded-md outline-blue-400 p-2 mb-3 w-full"
                         value={formik.values[dt]}
                         onChange={formik.handleChange}
                         disabled={(dt === 'nrp')}
-                        min={(dt === "semester")? 1 : null}
-                        max={(dt === "semester")? 14 : null}
+                        min={(dt === "semester") ? 1 : null}
+                        max={(dt === "semester") ? 14 : null}
                       />
                     }
                   </React.Fragment>
@@ -93,8 +123,8 @@ export default function EditData({ datafile }) {
                           onChange={formik.handleChange}
                         >
                           {
-                            Array.from({ length: 6 }, (_, index) => {
-                              const golongan = `golongan_${index + 1}`;
+                            Array.from({ length: 7 }, (_, index) => {
+                              const golongan = `golongan_${index}`;
                               return (
                                 <React.Fragment key={index}>
                                   <option value={golongan}>{golonganUkt(golongan)}</option>
@@ -147,9 +177,9 @@ export default function EditData({ datafile }) {
           <fieldset className="mb-10 matkulmengulang">
             <p>Mata Kuliah Mengulang</p>
             {
-              Object.keys(matkul).map(mk => {
+              Object.keys(matkul).map((mk, idx) => {
                 return (
-                  <React.Fragment key={mk}>
+                  <React.Fragment key={(mk)? mk : idx}>
                     <div className="flex items-center my-2">
                       <input
                         type="checkbox"
@@ -157,7 +187,7 @@ export default function EditData({ datafile }) {
                         name="matkul_mengulang"
                         value={mk}
                         onChange={formik.handleChange}
-                        defaultChecked={matkul_mengulang.includes(mk)}
+                        defaultChecked={(matkul_mengulang)? matkul_mengulang.includes(mk) : false}
                         className="w-4 h-4 mr-2"
                       /> <span className="">{matkul[mk]}</span>
                     </div>

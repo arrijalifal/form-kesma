@@ -2,8 +2,7 @@ import Head from "next/head";
 import Layout from "@/layout/layout";
 import Link from "next/link";
 import { getSession, useSession } from "next-auth/react";
-import DataDiri, { capitalize, golonganUkt, listMatkul } from "@/lib/data";
-import { useEffect, useState } from "react";
+import { capitalize, golonganUkt, listMatkul } from "@/lib/data";
 import axios from "axios";
 
 export default function Home({ database }) {
@@ -47,7 +46,7 @@ function ShowData({ database }) {
                         return (
                             <div key={dt} className="mb-1.5">
                                 <div className="table-cell box-border w-48 h-5 font-medium">{keys}</div>
-                                <div className="table-cell box-border w-auto h-5">{(dt.split("_")[0] === "pendapatan") ? golonganUkt(data.ekonomi[dt]) : data.ekonomi[dt]}</div>
+                                <div className="table-cell box-border w-auto h-5">{(dt.split("_")[0] === "pendapatan" || dt.split("_")[0] === "golongan") ? golonganUkt(data.ekonomi[dt]) : data.ekonomi[dt]}</div>
                             </div>
                         )
                     })
@@ -60,7 +59,7 @@ function ShowData({ database }) {
                         return (
                             <div key={dt} className="mb-1.5">
                                 <div className="table-cell box-border w-48 h-5 font-medium">{keys}</div>
-                                <div className="table-cell box-border w-auto h-5">{(dt === "matkul_mengulang") ? data.akademik[dt].map(mk => matkul[mk]).join(", ") : data.akademik[dt]}</div>
+                                <div className="table-cell box-border w-auto h-5">{(dt === "matkul_mengulang") ? (data.akademik[dt])? data.akademik[dt].map(mk => matkul[mk]).join(", ") : "Undefined" : data.akademik[dt]}</div>
                             </div>
                         )
                     })
