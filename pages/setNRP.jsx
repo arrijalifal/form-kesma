@@ -30,6 +30,12 @@ export default function SetNRP() {
         });
         router.push('/');
     }
+
+    async function onEnterPressed (event) {
+        if (event.key === 'Enter') {
+            return await onSubmit();
+        }
+    }
     return (
         <LoginBox>
             <Head>
@@ -49,7 +55,7 @@ export default function SetNRP() {
                     className="border border-gray-400 rounded-md outline-blue-400 p-1 mt-1 w-1/2"
                 />
                 <div>
-                    <button className="border-2 px-3 py-1 mt-3 rounded-md hover:bg-blue-100" onClick={onSubmit}>Masuk</button>
+                    <button className="border-2 px-3 py-1 mt-3 rounded-md hover:bg-blue-100" onClick={onSubmit} onKeyDown={onEnterPressed}>Masuk</button>
                 </div>
             </div>
         </LoginBox>

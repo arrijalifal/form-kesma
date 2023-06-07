@@ -8,7 +8,6 @@ import axios from "axios";
 
 export default function Home({ database }) {
     const data = database.data;
-    const nama = database.data
     return (
         <Layout nama={database.nama} nrp={database.nrp}>
             <Head>
