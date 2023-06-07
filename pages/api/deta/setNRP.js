@@ -12,7 +12,7 @@ export default async function handler(req, res) {
                         "semester": ""
                     },
                     "ekonomi": {
-                        "golongan_ukt": "",
+                        "golongan_ukt": "golongan_0",
                         "pekerjaan_ayah": "",
                         "pendapatan_ayah": "",
                         "pekerjaan_ibu": "",

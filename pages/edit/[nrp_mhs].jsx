@@ -36,13 +36,13 @@ export default function EditData({ datafile }) {
         matkul_mengulang
       },
       onSubmit: (value) => {
-        // console.log(value);
-        router.push('/')
+        console.log(value);
+        // router.push('/')
       }
     },
   );
   return (
-    <Layout nrp={datafile.nrp}>
+    <Layout nama={datafile.nama} nrp={datafile.nrp}>
       <Head>
         <title>{router.query.nrp_mhs}</title>
       </Head>
@@ -61,12 +61,14 @@ export default function EditData({ datafile }) {
                     {
                       <input
                         id={dt}
-                        type="text"
+                        type={(dt === "semester")? 'number' : 'text'}
                         name={dt}
                         className="border border-gray-400 rounded-md outline-blue-400 p-2 mb-3 w-full"
                         value={formik.values[dt]}
                         onChange={formik.handleChange}
                         disabled={(dt === 'nrp')}
+                        min={(dt === "semester")? 1 : null}
+                        max={(dt === "semester")? 14 : null}
                       />
                     }
                   </React.Fragment>
@@ -82,7 +84,7 @@ export default function EditData({ datafile }) {
                   <React.Fragment key={dt}>
                     <p>{keys}</p>
                     {
-                      (dt.split("_")[0] === "pendapatan") ?
+                      (dt.split("_")[0] === "pendapatan" || dt.split("_")[0] === "golongan") ?
                         <select
                           id={dt}
                           name={dt}
