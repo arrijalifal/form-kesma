@@ -19,9 +19,9 @@ export default function SetNRP() {
         }
         else setIsValid(true)
     });
-    function onSubmit() {
-        axios({
-            method: 'post',
+    async function onSubmit() {
+        await axios({
+            method: 'PATCH',
             url: 'http://localhost:3000/api/deta/setNRP',
             data: {
                 email: session.user.email,

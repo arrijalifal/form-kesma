@@ -6,10 +6,14 @@ import DataDiri, { capitalize, golonganUkt, listMatkul } from "@/lib/data";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Home() {
-    const data = DataDiri();
+export default function Home({ database }) {
+    let [jancok, setJancok] = useState({});
+
+    console.log(jancok)
+    const data = database.data;
+    const nama = database.data
     return (
-        <Layout>
+        <Layout nama={database.nama} nrp={database.nrp}>
             <Head>
                 <title>Form Kesejahteraan Mahasiswa HIMATEKKOM ITS</title>
             </Head>
@@ -93,9 +97,18 @@ export async function getServerSideProps({ req }) {
                 }
             }
         } else {
+            const file = await axios({
+                method: 'post',
+                url: "http://localhost:3000/api/deta/getData",
+                data: {
+                    email: email
+                }
+            });
+            const database = file.data
             return {
                 props: {
                     session,
+                    database
                 }
             }
         }
