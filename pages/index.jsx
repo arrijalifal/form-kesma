@@ -7,9 +7,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Home({ database }) {
-    let [jancok, setJancok] = useState({});
-
-    console.log(jancok)
     const data = database.data;
     const nama = database.data
     return (
