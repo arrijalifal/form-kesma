@@ -16,7 +16,7 @@ export default function Login() {
         <title>Login - From Kesma HIMATEKKOM ITS</title>
       </Head>
       <div className="text-center text-xl">
-        <h1 className="w-4/5 mx-auto text-2xl select-none">Form KESMA HIMATEKKOM ITS</h1>
+        <h1 className="w-4/5 mx-auto text-2xl md:text-4xl select-none">Form KESMA HIMATEKKOM ITS</h1>
       </div>
       <div className="text-center mt-4">
         <button className="border-2 p-3 rounded-md hover:bg-blue-100" onClick={handlerGoogleLogin}>

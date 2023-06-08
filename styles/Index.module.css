@@ -1,0 +1,7 @@
+.name {
+    @apply table-cell box-border w-36 sm:w-48 h-5 font-medium;
+}
+
+.description {
+    @apply table-cell box-border w-auto h-5;
+}

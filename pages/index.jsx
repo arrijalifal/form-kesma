@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getSession, useSession } from "next-auth/react";
 import { capitalize, golonganUkt, listMatkul } from "@/lib/data";
 import axios from "axios";
+import styles from '../styles/Index.module.css'
 
 export default function Home({ database }) {
     const data = database.data;
@@ -32,8 +33,8 @@ function ShowData({ database }) {
                         const keys = dt.split("_").map(k => (capitalize(k)) ? k.toUpperCase() : k.charAt(0).toUpperCase() + k.slice(1)).join(" ")
                         return (
                             <div key={dt} className="mb-1.5">
-                                <div className="table-cell box-border w-48 h-5 font-medium">{(dt === 'nrp') ? keys.toUpperCase() : keys}</div>
-                                <div className="table-cell box-border w-auto h-5 ">{data.datadiri[dt]}</div>
+                                <div className={styles.name}>{(dt === 'nrp') ? keys.toUpperCase() : keys}</div>
+                                <div className={styles.description}>{data.datadiri[dt]}</div>
                             </div>
                         )
                     })
@@ -45,8 +46,8 @@ function ShowData({ database }) {
                         const keys = dt.split("_").map(k => (capitalize(k)) ? k.toUpperCase() : k.charAt(0).toUpperCase() + k.slice(1)).join(" ")
                         return (
                             <div key={dt} className="mb-1.5">
-                                <div className="table-cell box-border w-48 h-5 font-medium">{keys}</div>
-                                <div className="table-cell box-border w-auto h-5">{(dt.split("_")[0] === "pendapatan" || dt.split("_")[0] === "golongan") ? golonganUkt(data.ekonomi[dt]) : data.ekonomi[dt]}</div>
+                                <div className={styles.name}>{keys}</div>
+                                <div className={styles.description}>{(dt.split("_")[0] === "pendapatan" || dt.split("_")[0] === "golongan") ? golonganUkt(data.ekonomi[dt]) : data.ekonomi[dt]}</div>
                             </div>
                         )
                     })
@@ -58,8 +59,8 @@ function ShowData({ database }) {
                         const keys = dt.split("_").map(k => (capitalize(k)) ? k.toUpperCase() : k.charAt(0).toUpperCase() + k.slice(1)).join(" ")
                         return (
                             <div key={dt} className="mb-1.5">
-                                <div className="table-cell box-border w-48 h-5 font-medium">{keys}</div>
-                                <div className="table-cell box-border w-auto h-5">{(dt === "matkul_mengulang") ? (data.akademik[dt])? data.akademik[dt].map(mk => matkul[mk]).join(", ") : "Undefined" : data.akademik[dt]}</div>
+                                <div className={styles.name}>{keys}</div>
+                                <div className={styles.description}>{(dt === "matkul_mengulang") ? (data.akademik[dt])? data.akademik[dt].map(mk => matkul[mk]).join(", ") : "Undefined" : data.akademik[dt]}</div>
                             </div>
                         )
                     })

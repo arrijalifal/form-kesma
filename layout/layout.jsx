@@ -1,10 +1,10 @@
-import Link from "next/link"
 import { signOut } from "next-auth/react"
+import styles from '../styles/Layout.module.css'
 
 export default function Layout({ nama, nrp, children }) {
     return (
         <div className="relative">
-            <header className="bg-slate-50 flex justify-between mx-4 px-4 py-2 rounded-md sticky top-5">
+            <header className={styles.login_info}>
                 <div>
                     <p>{nama}</p>
                     <h3 className="font-semibold text-xl">{nrp}</h3>
@@ -18,7 +18,7 @@ export default function Layout({ nama, nrp, children }) {
                     </button>
                 </div>
             </header>
-            <main className="w-1/2  bg-slate-50 mx-auto p-4 my-10 rounded-md">
+            <main className={styles.body_content}>
                 {children}
             </main>
         </div>
