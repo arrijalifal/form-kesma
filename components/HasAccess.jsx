@@ -1,9 +1,7 @@
-import Layout from "@/layout/layout";
-import Head from "next/head";
 import { capitalize, golonganUkt, listMatkul } from "@/lib/data";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import React from "react";
 import axios from "axios";
 
