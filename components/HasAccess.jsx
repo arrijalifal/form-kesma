@@ -5,9 +5,8 @@ import { useSession } from "next-auth/react";
 import React from "react";
 import axios from "axios";
 
-export default function HasAccess({datafile}) {
+export default function HasAccess({datafile, session}) {
   const router = useRouter();
-  const { data: session } = useSession();
   const database = datafile.data
   const { nrp, kontak, semester } = database.datadiri;
   const {

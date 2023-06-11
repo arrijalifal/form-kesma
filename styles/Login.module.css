@@ -8,3 +8,13 @@
     user-select: none;
     /* Standard syntax */
 }
+
+.box {
+    @apply w-4/5 sm:w-2/3 md:w-3/5 lg:w-2/5 bg-slate-50 rounded-lg pt-5 pb-2;
+}
+
+@media (prefers-color-scheme: dark) {
+    .box {
+        background-color: #5C469C;
+    }
+}

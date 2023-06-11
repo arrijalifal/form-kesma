@@ -13,3 +13,9 @@
 .nrp {
     @apply font-semibold text-xl;
 }
+
+@media (prefers-color-scheme: dark) {
+    .login_info, .body_content {
+        background-color: #5C469C;
+    }
+}

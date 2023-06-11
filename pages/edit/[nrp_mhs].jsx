@@ -5,17 +5,20 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { getSession, useSession } from "next-auth/react";
 import HasAccess from "@/components/HasAccess";
+import NoAccess from "@/components/NoAccess";
 import React from "react";
 import axios from "axios";
 
 export default function EditData({ datafile }) {
   const router = useRouter();
+  const isSameNRP = (router.query.nrp_mhs === datafile.nrp);
+  const { data: session } = useSession();
   return (
     <Layout nama={datafile.nama} nrp={datafile.nrp}>
       <Head>
-        <title>{router.query.nrp_mhs}</title>
+        <title>{(isSameNRP)? router.query.nrp_mhs : "Pencuri Data Orang"}</title>
       </Head>
-      <HasAccess datafile={datafile}/>
+      <HasAccess datafile={datafile} session={session}/>
     </Layout>
   )
 }

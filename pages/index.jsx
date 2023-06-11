@@ -67,7 +67,7 @@ function ShowData({ database }) {
                 }
             </section>
             <section className="text-center mt-10">
-                <Link href={"/edit/" + data.datadiri.nrp}><button className="border-2 border-slate-50 bg-blue-600 text-gray-50 px-3 py-2 rounded-md">Edit Data</button></Link>
+                <Link href={"/edit/" + data.datadiri.nrp}><button>Edit Data</button></Link>
             </section>
         </div>
     )
